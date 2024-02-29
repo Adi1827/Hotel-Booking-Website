@@ -1,4 +1,3 @@
-
 from django.shortcuts import render , redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login
@@ -6,10 +5,11 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
 from .models import (Amenities, Hotel, HotelBooking)
 from django.db.models import Q
+import datetime
 
 
 
-def check_booking(start_date  , end_date ,uid , room_count):
+def check_booking(start_date,end_date ,uid , room_count):
     qs = HotelBooking.objects.filter(
         start_date__lte=start_date,
         end_date__gte=end_date,
@@ -24,11 +24,12 @@ def check_booking(start_date  , end_date ,uid , room_count):
 def home(request):
     amenities_objs = Amenities.objects.all()
     hotels_objs = Hotel.objects.all()
-    place=request.GET.get('place')
-    sort_by = request.GET.get('sort_by')
-    search = request.GET.get('search')
-    amenities = request.GET.getlist('amenities')
-    print(amenities)
+    place=request.POST.get('place')
+    sort_by = request.POST.get('sort_by')
+    search = request.POST.get('search') if request.POST.get('search') else ""
+    amenities = request.POST.getlist('amenities')
+    prs_date=datetime.datetime.now()
+    prs_date_value=prs_date.strftime("%Y-%m-%d")
     if sort_by:
         if sort_by == 'ASC':
             hotels_objs = hotels_objs.order_by('hotel_price')
@@ -47,7 +48,7 @@ def home(request):
 
 
     context = {'amenities_objs' : amenities_objs , 'hotels_objs' : hotels_objs , 'sort_by' : sort_by 
-    , 'search' : search , 'amenities' : amenities,'place':place}
+    , 'search' : search , 'amenities' : amenities,'place':place,'prs_date':prs_date_value}
     return render(request , 'home.html' ,context)
 
 
