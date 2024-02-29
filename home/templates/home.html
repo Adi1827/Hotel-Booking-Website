@@ -1,13 +1,7 @@
 {% extends "base.html" %}
 {% comment %} {% block title %}Home{% endblock title %} {% endcomment %}
-{%  block start %}
- <style>
-    .hotel-container{
-        color:black;
-    }
-</style> 
-
-<!-- jumbotron and nav -->
+{%  block start %} 
+<!-- jumbotro%>n and nav -->
 <section class="colorful jumbotron mb-0" role="banner">
     <nav class="navbar navbar-expand-lg justify-content-between navbar-dark" role="navigation">
         <div class="navbar-brand">
@@ -15,22 +9,22 @@
                 {% comment %} <em>.</em> {% endcomment %}
             </a>
         </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-       
-    </nav>
+        {% comment %} <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button> {% endcomment %}
+    
+</nav>
 
-    <div class="container hotels-container">
-
-        <div class="row mt-2 justify-content-between">
-            <div class=" text-white align-self-center mb-2 p-4">
-                <h1>Check My Trip</h1>
+<div class="container hotels-container">
+    
+    <div class="row mt-2 justify-content-between">
+        <div class=" text-white align-self-center mb-2 p-4">
+            <h1>CheckMyTrip.com</h1>
                 <span class=""> We offer the cheapest Rate for Hotels with flexible check-in's and check-out dates.Discover Unbeatable Value and Exceptional Comfort with Our Affordable Hotel Accommodations.Experience Unrivaled Comfort and Value at Our Premier Selection of Budget-Friendly Hotels
                 </span>
             </div>
-           
+            
         </div>
     </div>
 </section>
@@ -39,17 +33,18 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <div class="row my-3"> 
-                </div>
+                <div class="row my-3"></div>
                 <div class="row mt-2 justify-content-between">
-                    <div class="filter-card sticky">
-                        <h5>Filter</h5>
+                    <div class="filter-card">
+                        <h5 align="center">Filter</h5>
                         <form action="#">
+                            
                             <div class="row form-group">
                                 <div class="col-md-12">
                                     <label for="mintopay">Check in</label>
                                     <p>
-                                        <input type="date" name="checkin" id="checkin" class="form-control">
+                                        <input type="date" name="checkin" id="checkin" class="form-control" min="{{ prs_date }}"> 
+                                        {% comment %} Make above dates dynamically updatable {% endcomment %}
                                     </p>
                                 </div>
                                 <div class="col-md-12">
@@ -59,7 +54,7 @@
                                     </p>
                                 </div>
                             </div>
-                           
+                        
                             <div class="row form-group">
                                 <div class="col-md-12">
                                     <input type="submit" class="btn btn-primary btn-block" value="Search">
@@ -70,10 +65,9 @@
                 </div>
             </div>
 
-
-
-            <div class="col-lg-9  px-4 mb-5">
-                <form>
+            <div class="col-lg-9 px-4 mb-5">
+                <form method="post">
+                    {% csrf_token %}
                 <div class="row mt-3">
                     <div class="col-md-4">
                     <div class="form-inline">
@@ -89,7 +83,7 @@
                     <div class="col-md-4">
                         <div class="form-inline">
                             <label class="" for="exampleFormControlSelect1">Search</label>
-                            <input name="search" class="form-control" value="{{search}}" placeholder="Start Searching..."> 
+                            <input name="search" class="form-control" value="{{search}}" placeholder="Where to..."> 
                         </div>
 
                     </div>
@@ -106,7 +100,6 @@
 
                     </div>
                     <div class="col-md-4">
-                     
                             <button style="margin-top: 30px;" type="submit" class="btn btn-success">Find</button>
                         </div>
                 </div>
@@ -141,7 +134,7 @@
                     <div class="col-md-2 border-left text-center more-offers">
                         <p>{{hotels_obj.place}}</p>
                         <p>₹{{hotels_obj.hotel_price}}</p>
-                        <p>Room count</p>
+                        <p>Room Count</p>
                         <p>{{hotels_obj.room_count}}</p>
                     </div>
                     <div class="col-md-2 border-left text-center more-offers">
